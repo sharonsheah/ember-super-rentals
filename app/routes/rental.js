@@ -1,22 +1,10 @@
-import Model, { attr } from '@ember-data/model';
+import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
-const COMMUNITY_CATEGORIES = ['Condo', 'Townhouse', 'Apartment'];
+export default class RentalRoute extends Route {
+  @service store;
 
-export default class RentalModel extends Model {
-  @attr title;
-  @attr owner;
-  @attr city;
-  @attr location;
-  @attr category;
-  @attr image;
-  @attr bedrooms;
-  @attr description;
-
-  get type() {
-    if (COMMUNITY_CATEGORIES.includes(this.category)) {
-      return 'Community';
-    } else {
-      return 'Standalone';
-    }
+  async model(params) {
+    return this.store.findRecord('rental', params.rental_id);
   }
 }
